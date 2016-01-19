@@ -19,20 +19,18 @@ class apt_install {
  }
 class java_install {
     class { "java":
-      jdk            => true,
-      jre            => true,
-      sources        => true,
-      javadoc        => true,
-      set_as_default => true,
-      export_path    => false,
-      vendor         => "oracle",
     }
 }
 class jboss_install {
-  class { 'wildfly':
-    version        => '9.0.0',
-    install_source => 'http://download.jboss.org/wildfly/9.0.0.Final/wildfly-9.0.0.Final.tar.gz'
-  }
+  class { 'jboss':
+		install             => 'source',
+		disable  => ''
+	}
+	jboss::instance { 'inst01':
+		  createuser => false, # Default user jboss is already created by jboss class
+		  bindaddr    => '127.0.0.1',
+		  port        => '8080',
+	}
 }
 
 include apt_install
